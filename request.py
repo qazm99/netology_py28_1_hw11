@@ -75,21 +75,14 @@ def go_to_disk(filename, path_to='/', oauth=''):
             }
             # по полученной ссылке отправляем данные из файла
             response = requests.get(url_disk, headers=headers, params=params, timeout=10)
-            # print(response.href)
             json_response = response.json()
-            # print(json_)
             params['file'] = file.name
-            # print(json_response.get('href'))
             if json_response.get('href') != None:
                 response = requests.put(json_response['href'], filedata)
                 json2_response = response
-                # print(type(json2_response))
-                # print(json2_response)
                 return json2_response.status_code, json2_response.reason
             else:
                 print(f'Не удалось получить ссылку на загрузку файла: {json_response.get("message")}')
-            # print(json2_response)
-
     except Exception as e:
         print(f'Не получилось отправить файл {filename} на Ядиск: {e}')
 
@@ -112,8 +105,8 @@ if __name__ == '__main__':
             # Если все хорошо файлики появятся здесь https://yadi.sk/d/8Z2Rwp3xQyw0yA
             if file_to_disk != None:
                 result_put_file = go_to_disk(file_to_disk, '/translate/', oauth=oauth)
-                if (result_put_file is not None):
-                    if (result_put_file[0] == 201):
+                if result_put_file is not None:
+                    if result_put_file[0] == 201:
                         print(f'Файл {file_to_disk} успешно отправлен на Ядиск')
                     else:
                         print(f'Не удалось отправить файл на Ядиск: {result_put_file[0]} - {result_put_file[1]}')
